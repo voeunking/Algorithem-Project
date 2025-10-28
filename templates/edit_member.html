@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="card shadow p-4">
+        <h2 class="mb-4 text-center">✏️ Edit Member</h2>
+
+        <form method="POST" action="{{ url_for('member_bp.edit_member', id=member['id']) }}">
+            <div class="mb-3">
+                <label for="full_name" class="form-label">Full Name <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" id="full_name" name="full_name" required
+                    value="{{ member['full_name'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email" name="email" value="{{ member['email'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="phone" class="form-label">Phone</label>
+                <input type="text" class="form-control" id="phone" name="phone" value="{{ member['phone'] }}">
+            </div>
+            <div class="mb-3">
+                <label for="address" class="form-label">Address</label>
+                <input type="text" class="form-control" id="address" name="address" value="{{ member['address'] }}">
+            </div>
+
+            <div class="text-center mt-4">
+                <button type="submit" class="btn btn-primary px-4">💾 Save Changes</button>
+                <a href="{{ url_for('member_bp.view_members') }}" class="btn btn-secondary px-4 ms-2">← Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelector("form").addEventListener("submit", function (e) {
+        const fullName = document.getElementById("full_name").value.trim();
+        if (!fullName) {
+            alert("Full name is required!");
+            e.preventDefault();
+        }
+    });
+</script>
+{% endblock %}

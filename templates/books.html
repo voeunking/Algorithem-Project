@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+
+{% block title %}All Books | Library Management{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/books" class="text-decoration-none">Books</a></li>
+<li class="breadcrumb-item active" aria-current="page">All</li>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/books.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">All Books</h2>
+  <a href="{{ url_for('book_bp.add_book') }}" class="btn btn-success"><i class="fas fa-plus me-2"></i>Add Book</a>
+  
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label">Search</label>
+        <input id="booksSearch" type="text" class="form-control" placeholder="Search title, author, publisher, category">
+      </div>
+      <div class="col-md-3">
+        <label class="form-label">Category</label>
+        <select id="booksCategory" class="form-select">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Sort</label>
+        <select id="booksSort" class="form-select">
+          <option value="title">Title</option>
+          <option value="author">Author</option>
+          <option value="publisher">Publisher</option>
+          <option value="year_published">Year</option>
+          <option value="category">Category</option>
+          <option value="available_copies">Available</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Order</label>
+        <select id="booksOrder" class="form-select">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label class="form-label">Per Page</label>
+        <select id="booksPerPage" class="form-select">
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="booksTable">
+        <thead>
+          <tr>
+            <th style="width:70px;">ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Year</th>
+            <th>Category</th>
+            <th>Total</th>
+            <th>Available</th>
+            <th style="width:110px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <div id="booksSummary" class="text-muted small"></div>
+      <nav>
+        <ul class="pagination mb-0" id="booksPagination"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/books.js') }}"></script>
+{% endblock %}

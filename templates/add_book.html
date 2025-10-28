@@ -1,0 +1,236 @@
+{% extends 'base.html' %}
+
+{% block extra_css %}
+<style>
+    .add-book-card {
+        max-width: 900px;
+        margin: 0 auto;
+        border: 1px solid #eef1f4;
+        background: #fff;
+        box-shadow: 0 8px 24px rgba(16, 24, 40, .06);
+        border-radius: .9rem;
+    }
+
+    .add-book-header {
+        padding: 1rem 1.25rem 0 1.25rem;
+    }
+
+    .add-book-title {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+        margin: 0;
+    }
+
+    .add-book-title i {
+        color: #4a6fa5;
+    }
+
+    .add-book-sub {
+        color: #6c757d;
+        font-size: .95rem;
+    }
+
+    .form-help {
+        font-size: .9rem;
+        color: #6c757d;
+    }
+
+    .btn-icon {
+        display: inline-flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .required::after {
+        content: ' *';
+        color: #dc3545;
+    }
+
+    .actions {
+        padding-top: .5rem;
+        border-top: 1px solid #f1f3f5;
+    }
+
+    .form-section {
+        padding-top: .25rem;
+    }
+
+    .card-body {
+        padding: 1rem 1.25rem 1.25rem 1.25rem;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: #344767;
+        white-space: nowrap;
+    }
+
+    .form-control {
+        height: 44px;
+        border-radius: .6rem;
+    }
+    #button{
+        width:100%;
+    }
+    
+    #group-card{
+  
+        width:50%;
+    }
+
+    @media (max-width: 576px) {
+        .actions .btn {
+            width: 100%;
+        }
+    }
+
+    /* Button fixes scoped to this card to avoid global overrides */
+    .add-book-card .actions .btn {
+        white-space: nowrap;
+        padding: .65rem 1.1rem;
+        font-weight: 600;
+        border-radius: .65rem;
+        min-width: 120px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 6px 14px rgba(16,24,40,.06);
+        transition: transform .15s ease, box-shadow .2s ease, background-color .2s ease, color .2s ease;
+    }
+    .add-book-card .actions .btn:active {
+        transform: translateY(1px);
+        box-shadow: 0 3px 8px rgba(16,24,40,.08);
+    }
+    .add-book-card .btn-icon i {
+        margin-right: .45rem;
+    }
+    .add-book-card .btn-primary {
+        background-color: #4a6fa5;
+        border-color: #4a6fa5;
+        color: #fff;
+    }
+    .add-book-card .btn-primary:hover {
+        filter: none;
+        background-color: #44689a;
+        box-shadow: 0 10px 20px rgba(74,111,165,.25);
+    }
+    .add-book-card .btn-outline-secondary {
+        background: #fff !important;
+        color: #6c757d !important;
+        border-color: #dee2e6 !important;
+    }
+    .add-book-card .btn-outline-secondary:hover {
+        background: #f8f9fa !important;
+        color: #495057 !important;
+        border-color: #ced4da !important;
+    }
+    .add-book-card .actions .btn span {
+        overflow: visible;
+    }
+
+    .add-book-card .card-footer {
+        background: #fff;
+        border-top: 1px solid #f1f3f5;
+        padding: .75rem 1.25rem;
+        border-bottom-left-radius: .9rem;
+        border-bottom-right-radius: .9rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="card add-book-card">
+        <div class="add-book-header">
+            <h4 class="add-book-title"><i class="fas fa-layer-group"></i><span>Add New Book</span></h4>
+            <div class="add-book-sub">Provide book details. Fields marked with * are required.</div>
+        </div>
+        <div class="card-body form-section">
+            <form method="POST" action="{{ url_for('book_bp.add_book') }}" id="bookForm" novalidate>
+                <div class="row g-3 mb-2">
+                    <div class="col-md-6">
+                        <label for="title" class="form-label required">Title</label>
+                        <input type="text" class="form-control" id="title" name="title" required
+                            placeholder="Enter book title">
+                        <div class="invalid-feedback">Please provide a title.</div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="author" class="form-label required">Author</label>
+                        <input type="text" class="form-control" id="author" name="author" required
+                            placeholder="Enter author name">
+                        <div class="invalid-feedback">Please provide an author.</div>
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2">
+                    <div class="col-md-6">
+                        <label for="publisher" class="form-label">Publisher</label>
+                        <input type="text" class="form-control" id="publisher" name="publisher"
+                            placeholder="Enter publisher">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="year_published" class="form-label">Year Published</label>
+                        <input type="number" class="form-control" id="year_published" name="year" min="1000" max="9999"
+                            placeholder="e.g. 2025">
+                    </div>
+                </div>
+
+                <div class="row g-3 mb-2">
+                    <div class="col-md-6">
+                        <label for="category" class="form-label">Category</label>
+                        <input type="text" class="form-control" id="category" name="category"
+                            placeholder="e.g. Fiction, Science">
+                        <div class="form-help">Separate multiple categories with commas.</div>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="total_copies" class="form-label">Total Copies</label>
+                        <input type="number" class="form-control" id="total_copies" name="total" min="1" value="1"
+                            required>
+                    </div>
+                    <div class="col-md-3">
+                        <label for="available_copies" class="form-label">Available Copies</label>
+                        <input type="number" class="form-control" id="available_copies" name="available" min="0"
+                            value="1" required>
+                    </div>
+                </div>
+
+            </form>
+        </div>
+        <div class="card-footer" id="card">
+            <div class="d-flex justify-content-end gap-2" id="group-card">
+                <a href="{{ url_for('book_bp.view_books') }}" class="btn btn-outline-secondary btn-icon px-4" id="button"><i
+                        class="fas fa-arrow-left"></i> Cancel</a>
+                <button form="bookForm" type="submit" class="btn btn-primary btn-icon px-4" id="button"><i class="fas fa-save"></i>
+                    Save Book</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    // Enhance Bootstrap validation UX and ensure available <= total
+    document.addEventListener('DOMContentLoaded', () => {
+        const form = document.getElementById('bookForm');
+        const total = document.getElementById('total_copies');
+        const avail = document.getElementById('available_copies');
+
+        form.addEventListener('submit', (e) => {
+            if (!form.checkValidity()) {
+                e.preventDefault();
+                form.classList.add('was-validated');
+                if (typeof showToast === 'function') showToast('Please fill in required fields', 'error');
+                return;
+            }
+            const t = parseInt(total.value || '0', 10);
+            const a = parseInt(avail.value || '0', 10);
+            if (a > t) {
+                e.preventDefault();
+                if (typeof showToast === 'function') showToast('Available copies cannot exceed total copies', 'error');
+            }
+        });
+    });
+</script>
+{% endblock %}

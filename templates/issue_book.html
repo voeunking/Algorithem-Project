@@ -1,0 +1,129 @@
+{% extends 'base.html' %}
+{% block extra_css %}
+<style>
+  .issue-card {
+    max-width: 720px;
+    margin: 0 auto;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, .06);
+    border: 0;
+  }
+
+  .issue-card .card-header {
+    background: linear-gradient(135deg, #4a6fa5, #6ca1ff);
+    color: #fff;
+  }
+
+  .issue-icon {
+    font-size: 1.2rem;
+    background: #ffffff22;
+    border-radius: 8px;
+    padding: .35rem .55rem;
+    margin-right: .5rem;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .availability {
+    font-weight: 600;
+  }
+
+  .availability.low {
+    color: #dc3545;
+  }
+
+  .availability.ok {
+    color: #198754;
+  }
+
+  .helper {
+    font-size: .9rem;
+    color: #6c757d;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="card issue-card">
+    <div class="card-header d-flex align-items-center">
+      <span class="issue-icon"><i class="fas fa-book"></i></span>
+      <div>
+        <h4 class="mb-0">Issue Book</h4>
+        <small class="opacity-75">Select a member and a book to create a transaction</small>
+      </div>
+    </div>
+    <div class="card-body">
+      <form method="POST" id="issueForm" novalidate>
+        <div class="mb-3">
+          <label for="member_id" class="form-label">Member</label>
+          <select id="member_id" name="member_id" class="form-select" required>
+            <option value="" selected disabled>Select member</option>
+            {% for member in members %}
+            <option value="{{ member.id }}">{{ member.full_name }}</option>
+            {% endfor %}
+          </select>
+          <div class="invalid-feedback">Please select a member.</div>
+        </div>
+
+        <div class="mb-2">
+          <label for="book_id" class="form-label">Book</label>
+          <select id="book_id" name="book_id" class="form-select" required>
+            <option value="" selected disabled>Select book</option>
+            {% for book in books %}
+            <option value="{{ book.id }}" data-available="{{ book.available_copies }}">{{ book.title }}</option>
+            {% endfor %}
+          </select>
+          <div class="invalid-feedback">Please select a book.</div>
+        </div>
+        <div class="helper mb-3">Availability: <span id="avail" class="availability">—</span></div>
+
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-success"><i class="fas fa-check me-1"></i> Issue Book</button>
+          <a href="{{ url_for('member_bp.show_add_member_form') }}" class="btn btn-outline-secondary"><i
+              class="fas fa-user-plus me-1"></i> Add Member</a>
+          <a href="{{ url_for('book_bp.add_book') }}" class="btn btn-outline-primary"><i class="fas fa-plus me-1"></i>
+            Add Book</a>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('issueForm');
+    const bookSelect = document.getElementById('book_id');
+    const avail = document.getElementById('avail');
+
+    const updateAvailability = () => {
+      const opt = bookSelect.options[bookSelect.selectedIndex];
+      const left = opt ? parseInt(opt.getAttribute('data-available') || '0', 10) : 0;
+      if (!opt || isNaN(left)) { avail.textContent = '—'; avail.className = 'availability'; return; }
+      avail.textContent = left + ' in stock';
+      avail.className = 'availability ' + (left < 1 ? 'low' : 'ok');
+    };
+
+    bookSelect.addEventListener('change', updateAvailability);
+    updateAvailability();
+
+    form.addEventListener('submit', (e) => {
+      const memberOk = !!document.getElementById('member_id').value;
+      const bookOk = !!bookSelect.value;
+      const opt = bookSelect.options[bookSelect.selectedIndex];
+      const left = opt ? parseInt(opt.getAttribute('data-available') || '0', 10) : 0;
+
+      if (!memberOk || !bookOk) {
+        e.preventDefault();
+        form.classList.add('was-validated');
+        return;
+      }
+      if (left < 1) {
+        e.preventDefault();
+        if (typeof showToast === 'function') showToast('Selected book is currently unavailable', 'error');
+      }
+    });
+  });
+</script>
+{% endblock %}

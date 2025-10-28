@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block title %}Popular Books | Library Management{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/books" class="text-decoration-none">Books</a></li>
+<li class="breadcrumb-item active" aria-current="page">Popular</li>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/popular_books.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Popular Books</h2>
+  <a href="/books" class="btn btn-outline-primary"><i class="fas fa-list me-2"></i>All Books</a>
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-3">
+        <label class="form-label">Search</label>
+        <input id="popSearch" type="text" class="form-control" placeholder="Search title, author, publisher, category">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Category</label>
+        <select id="popCategory" class="form-select">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Start</label>
+        <input id="popStart" type="date" class="form-control">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">End</label>
+        <input id="popEnd" type="date" class="form-control">
+      </div>
+      <div class="col-md-1">
+        <label class="form-label">Limit</label>
+        <select id="popLimit" class="form-select">
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Sort</label>
+        <select id="popSort" class="form-select">
+          <option value="count">Issue Count</option>
+          <option value="title">Title</option>
+          <option value="available_copies">Available</option>
+          <option value="total_copies">Total</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="row g-3" id="topCards"></div>
+
+<div class="card shadow-sm mt-3">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="popTable">
+        <thead>
+          <tr>
+            <th style="width:70px;">#</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Publisher</th>
+            <th>Category</th>
+            <th class="text-center" style="width:100px;">Total</th>
+            <th class="text-center" style="width:120px;">Available</th>
+            <th class="text-center" style="width:110px;">Issued</th>
+            <th style="width:110px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/popular_books.js') }}"></script>
+{% endblock %}

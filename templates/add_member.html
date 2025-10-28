@@ -1,0 +1,328 @@
+{% extends 'base.html' %}
+{% block title %}Add New Member - Library Management System{% endblock %}
+
+{% block breadcrumb %}
+  <li class="breadcrumb-item"><a href="{{ url_for('member_bp.view_members') }}" class="text-decoration-none">Members</a></li>
+  <li class="breadcrumb-item active" aria-current="page">Add New Member</li>
+{% endblock %}
+
+{% block container_class %}container-fluid{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <div class="card w-100 border-0 shadow-sm rounded-3 overflow-hidden">
+        <div class="card-header bg-primary text-white py-3">
+          <div class="d-flex align-items-center">
+            <i class="fas fa-user-plus me-2"></i>
+            <h4 class="mb-0">Add New Member</h4>
+          </div>
+        </div>
+        
+        <div class="card-body p-4">
+          <form method="POST" action="{{ url_for('member_bp.add_member') }}" id="memberForm" class="needs-validation" novalidate>
+            <div class="row g-3">
+              <!-- Personal Information -->
+              <div class="col-12">
+                <h5 class="mb-3 text-primary"><i class="fas fa-user-circle me-2"></i>Personal Information</h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="first_name" class="form-label">First Name <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="first_name" name="first_name" required 
+                         placeholder="Enter first name" pattern="[A-Za-z\s]+" minlength="2">
+                  <div class="invalid-feedback">Please enter a valid first name (letters only)</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="last_name" class="form-label">Last Name <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="last_name" name="last_name" required 
+                         placeholder="Enter last name" pattern="[A-Za-z\s]+" minlength="2">
+                  <div class="invalid-feedback">Please enter a valid last name (letters only)</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="date_of_birth" class="form-label">Date of Birth <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-calendar-alt"></i></span>
+                  <input type="date" class="form-control" id="date_of_birth" name="date_of_birth" required
+                         max="{{ today }}">
+                  <div class="invalid-feedback">Please select a valid date of birth</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="gender" class="form-label">Gender</label>
+                <select class="form-select" id="gender" name="gender">
+                  <option value="">Select gender</option>
+                  <option value="male">Male</option>
+                  <option value="female">Female</option>
+                  <option value="other">Other</option>
+                  <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
+              </div>
+              
+              <!-- Contact Information -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-primary"><i class="fas fa-address-book me-2"></i>Contact Information</h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="email" class="form-label">Email Address <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                  <input type="email" class="form-control" id="email" name="email" required 
+                         placeholder="Enter email address">
+                  <div class="invalid-feedback">Please enter a valid email address</div>
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="phone" class="form-label">Phone Number <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <input type="tel" class="form-control" id="phone" name="phone" required 
+                         placeholder="Enter phone number" pattern="[0-9+\-\s()]+">
+                  <div class="invalid-feedback">Please enter a valid phone number</div>
+                </div>
+              </div>
+              
+              <div class="col-12">
+                <label for="address" class="form-label">Address</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-map-marker-alt"></i></span>
+                  <input type="text" class="form-control" id="address" name="address" 
+                         placeholder="Enter street address">
+                </div>
+              </div>
+              
+              <div class="col-md-4">
+                <label for="city" class="form-label">City</label>
+                <input type="text" class="form-control" id="city" name="city" placeholder="Enter city">
+              </div>
+              
+              <div class="col-md-4">
+                <label for="state" class="form-label">State/Province</label>
+                <input type="text" class="form-control" id="state" name="state" placeholder="Enter state/province">
+              </div>
+              
+              <div class="col-md-4">
+                <label for="postal_code" class="form-label">Postal Code</label>
+                <input type="text" class="form-control" id="postal_code" name="postal_code" 
+                       placeholder="Enter postal code">
+              </div>
+              
+              <!-- Membership Information -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-primary"><i class="fas fa-id-card me-2"></i>Membership Information</h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="member_type" class="form-label">Member Type <span class="text-danger">*</span></label>
+                <select class="form-select" id="member_type" name="member_type" required>
+                  <option value="" disabled selected>Select member type</option>
+                  <option value="student">Student</option>
+                  <option value="faculty">Faculty</option>
+                  <option value="staff">Staff</option>
+                  <option value="community">Community Member</option>
+                </select>
+                <div class="invalid-feedback">Please select a member type</div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="membership_date" class="form-label">Membership Date <span class="text-danger">*</span></label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-calendar-check"></i></span>
+                  <input type="date" class="form-control" id="membership_date" name="membership_date" required
+                         value="{{ today }}" max="{{ today }}">
+                  <div class="invalid-feedback">Please select a valid membership date</div>
+                </div>
+              </div>
+              
+              <div class="col-12" id="institutionInfo" style="display: none;">
+                <label for="institution" class="form-label">Institution/Organization</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-university"></i></span>
+                  <input type="text" class="form-control" id="institution" name="institution" 
+                         placeholder="Enter institution or organization name">
+                </div>
+              </div>
+              
+              <!-- Emergency Contact -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-primary"><i class="fas fa-phone-alt me-2"></i>Emergency Contact</h5>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="emergency_contact_name" class="form-label">Emergency Contact Name</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-user"></i></span>
+                  <input type="text" class="form-control" id="emergency_contact_name" name="emergency_contact_name" 
+                         placeholder="Enter emergency contact name">
+                </div>
+              </div>
+              
+              <div class="col-md-6">
+                <label for="emergency_contact_phone" class="form-label">Emergency Contact Phone</label>
+                <div class="input-group">
+                  <span class="input-group-text"><i class="fas fa-phone"></i></span>
+                  <input type="tel" class="form-control" id="emergency_contact_phone" name="emergency_contact_phone" 
+                         placeholder="Enter emergency contact phone">
+                </div>
+              </div>
+              
+              <!-- Additional Information -->
+              <div class="col-12 mt-4">
+                <h5 class="mb-3 text-primary"><i class="fas fa-info-circle me-2"></i>Additional Information</h5>
+              </div>
+              
+              <div class="col-12">
+                <label for="notes" class="form-label">Notes</label>
+                <textarea class="form-control" id="notes" name="notes" rows="3" 
+                          placeholder="Enter any additional notes or information"></textarea>
+              </div>
+              
+              <div class="col-12">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="terms_agreed" name="terms_agreed" required>
+                  <label class="form-check-label" for="terms_agreed">
+                    I agree to the <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terms and Conditions</a> <span class="text-danger">*</span>
+                  </label>
+                  <div class="invalid-feedback">You must agree to the terms and conditions</div>
+                </div>
+              </div>
+              
+              <div class="col-12 mt-4">
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <a href="{{ url_for('member_bp.view_members') }}" class="btn btn-outline-secondary me-md-2">
+                    <i class="fas fa-times me-1"></i> Cancel
+                  </a>
+                  <button type="submit" class="btn btn-primary" id="submitBtn">
+                    <i class="fas fa-save me-1"></i> Save Member
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Terms and Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-primary text-white">
+        <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <h6>1. Membership Agreement</h6>
+        <p>By becoming a member, you agree to abide by all library rules and regulations. Membership is non-transferable and valid for one year from the date of registration.</p>
+        
+        <h6>2. Borrowing Privileges</h6>
+        <p>Members may borrow up to 5 items at a time for a period of 3 weeks. Some items may have special borrowing restrictions.</p>
+        
+        <h6>3. Fines and Fees</h6>
+        <p>Overdue items will accrue fines of $0.25 per day per item. Lost or damaged items will be charged to the member's account at the current replacement cost plus a processing fee.</p>
+        
+        <h6>4. Privacy Policy</h6>
+        <p>We respect your privacy. Your personal information will only be used for library purposes and will not be shared with third parties without your consent, except as required by law.</p>
+        
+        <h6>5. Code of Conduct</h6>
+        <p>Members are expected to behave in a manner that is respectful to others and the library facilities. The library reserves the right to revoke membership for inappropriate behavior.</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">I Understand</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  // Form validation
+  const form = document.getElementById('memberForm');
+  
+  // Toggle institution field based on member type
+  const memberType = document.getElementById('member_type');
+  const institutionInfo = document.getElementById('institutionInfo');
+  
+  if (memberType) {
+    memberType.addEventListener('change', function() {
+      if (this.value === 'student' || this.value === 'faculty' || this.value === 'staff') {
+        institutionInfo.style.display = 'block';
+        document.getElementById('institution').setAttribute('required', 'required');
+      } else {
+        institutionInfo.style.display = 'none';
+        document.getElementById('institution').removeAttribute('required');
+      }
+    });
+  }
+  
+  // Client-side validation
+  if (form) {
+    form.addEventListener('submit', function(event) {
+      if (!form.checkValidity()) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
+      
+      form.classList.add('was-validated');
+      
+      // Check age if date of birth is provided
+      const dobInput = document.getElementById('date_of_birth');
+      if (dobInput && dobInput.value) {
+        const dob = new Date(dobInput.value);
+        const today = new Date();
+        let age = today.getFullYear() - dob.getFullYear();
+        const monthDiff = today.getMonth() - dob.getMonth();
+        
+        if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < dob.getDate())) {
+          age--;
+        }
+        
+        if (age < 13) {
+          event.preventDefault();
+          alert('Members must be at least 13 years old. Please provide a valid date of birth.');
+          dobInput.focus();
+          return false;
+        }
+      }
+      
+      return true;
+    });
+  }
+  
+  // Initialize phone input mask
+  const phoneInputs = document.querySelectorAll('input[type="tel"]');
+  phoneInputs.forEach(input => {
+    input.addEventListener('input', function(e) {
+      const x = e.target.value.replace(/\D/g, '').match(/(\d{0,3})(\d{0,3})(\d{0,4})/);
+      e.target.value = !x[2] ? x[1] : '(' + x[1] + ') ' + x[2] + (x[3] ? '-' + x[3] : '');
+    });
+  });
+  
+  // Show loading state on form submission
+  const submitBtn = document.getElementById('submitBtn');
+  if (submitBtn) {
+    form.addEventListener('submit', function() {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-1" role="status" aria-hidden="true"></span> Saving...';
+    });
+  }
+});
+</script>
+{% endblock %}

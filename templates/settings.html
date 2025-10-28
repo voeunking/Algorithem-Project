@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Settings | Library Management{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/" class="text-decoration-none">Home</a></li>
+<li class="breadcrumb-item active" aria-current="page">Settings</li>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row g-4">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h5 class="mb-3">Account Settings</h5>
+          <div id="settingsAlert" class="alert d-none" role="alert"></div>
+
+          <div class="row g-4">
+            <div class="col-md-6">
+              <div class="settings-section">
+                <div class="fw-semibold mb-2">Profile</div>
+                <form id="formProfile" class="vstack gap-2">
+                  <div>
+                    <label class="form-label">Full name</label>
+                    <input id="inpFullName" class="form-control" type="text" maxlength="100" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Email</label>
+                    <input id="inpEmail" class="form-control" type="email" maxlength="120" required>
+                  </div>
+                  <div>
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="col-md-6">
+              <div class="settings-section">
+                <div class="fw-semibold mb-2">Change Password</div>
+                <form id="formPassword" class="vstack gap-2">
+                  <div>
+                    <label class="form-label">Current password</label>
+                    <input id="inpCurrentPassword" class="form-control" type="password" minlength="6" required>
+                  </div>
+                  <div>
+                    <label class="form-label">New password</label>
+                    <input id="inpNewPassword" class="form-control" type="password" minlength="6" required>
+                  </div>
+                  <div>
+                    <label class="form-label">Confirm new password</label>
+                    <input id="inpConfirmPassword" class="form-control" type="password" minlength="6" required>
+                  </div>
+                  <div>
+                    <button class="btn btn-outline-primary" type="submit">Change password</button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <div class="fw-semibold mb-2">Profile Picture</div>
+          <div class="d-flex align-items-center gap-3 mb-3">
+            <div id="avatar" class="avatar overflow-hidden d-flex align-items-center justify-content-center">
+              <i class="fas fa-user text-white-50"></i>
+            </div>
+            <div class="text-muted small">Recommended square image</div>
+          </div>
+          <form action="{{ url_for('upload_avatar') }}" method="post" enctype="multipart/form-data" class="d-flex gap-2 align-items-center">
+            <input class="form-control" type="file" name="avatar" accept="image/png,image/jpeg,image/jpg,image/gif,image/webp" required>
+            <button class="btn btn-secondary" type="submit">Upload</button>
+          </form>
+          <div class="small text-muted mt-2">Max 4 MB. Allowed: PNG, JPG, JPEG, GIF, WEBP.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/settings.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,105 @@
+# 📚 Library Management System
+
+A full-featured **Library Management System** built using **Python Flask**, **MySQL**, and **HTML/CSS**.  
+This web application allows librarians to manage books, members, and borrowing transactions with user authentication.
+
+---
+
+## 🚀 Features
+
+- 🔐 User Authentication (Register / Login / Logout)
+- 📘 Manage Books (Add, Edit, Delete, View)
+- 👥 Manage Members
+- 🔄 Issue & Return Books
+- 🧾 View Transaction History
+- 🖥️ Responsive Frontend (HTML + CSS + Jinja2)
+
+---
+
+## 🧩 Project Structure
+
+library_management/
+│
+├── app.py # Main Flask app
+├── config.py # Database connection configuration
+│
+├── routes/ # Flask route modules
+│ ├── auth_routes.py # Login and registration
+│ ├── book_routes.py # Manage books
+│ ├── member_routes.py # Manage members
+│ └── transaction_routes.py # Handle issuing and returning books
+│
+├── models/ # Database model files
+│ ├── user_model.py
+│ ├── book_model.py
+│ ├── member_model.py
+│ └── transaction_model.py
+│
+├── templates/ # HTML Templates
+│ ├── base.html
+│ ├── index.html
+│ ├── login.html
+│ ├── register.html
+│ ├── books.html
+│ ├── members.html
+│ └── transactions.html
+│
+├── static/ # CSS, JS, and images
+│ ├── css/
+│ │ └── style.css
+│ └── images/
+│
+└── README.md
+
+
+---
+
+## ⚙️ Setup Guide
+
+### 1️⃣ Prerequisites
+Make sure you have these installed:
+- **Python 3.10+**
+- **MySQL Server**
+- **pip (Python package manager)**
+
+---
+
+### 2️⃣ Install Dependencies
+Run this command in your project folder:
+```bash
+pip install flask mysql-connector-python
+
+
+CREATE DATABASE library_db;
+USE library_db;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(100) UNIQUE,
+    password VARCHAR(255)
+);
+
+CREATE TABLE books (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255),
+    author VARCHAR(255),
+    category VARCHAR(100),
+    available_copies INT
+);
+
+CREATE TABLE members (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    full_name VARCHAR(100),
+    email VARCHAR(100),
+    phone VARCHAR(20)
+);
+
+CREATE TABLE transactions (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    member_id INT,
+    book_id INT,
+    issue_date DATE,
+    return_date DATE,
+    status VARCHAR(20)
+);

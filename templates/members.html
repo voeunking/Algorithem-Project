@@ -1,0 +1,626 @@
+{% extends "base.html" %}
+
+{% block title %}Members - Library Management System{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item active" aria-current="page">Members</li>
+{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center">
+        <div class="mb-3 mb-md-0">
+          <h2 class="mb-0"><i class="fas fa-users me-2 text-primary"></i>Member Management</h2>
+          <p class="text-muted mb-0">Manage library members and their information</p>
+        </div>
+        <div class="d-flex flex-wrap gap-2">
+          <a href="{{ url_for('member_bp.add_member') }}" class="btn btn-primary">
+            <i class="fas fa-user-plus me-1"></i> Add New Member
+          </a>
+          <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#importModal">
+            <i class="fas fa-file-import me-1"></i> Import
+          </button>
+          <a href="#" class="btn btn-outline-success export-csv" data-table="membersTable" data-filename="members">
+            <i class="fas fa-file-export me-1"></i> Export
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Stats Cards -->
+  <div class="row mb-4">
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-primary shadow-sm h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Total Members</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ members|length }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-users fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-success shadow-sm h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-success text-uppercase mb-1">Active Members</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">{{ members|selectattr('status', 'equalto',
+                'active')|list|length }}</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-user-check fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-warning shadow-sm h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">Overdue Books</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">24</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-clock fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+      <div class="card border-left-info shadow-sm h-100 py-2">
+        <div class="card-body">
+          <div class="row no-gutters align-items-center">
+            <div class="col mr-2">
+              <div class="text-xs font-weight-bold text-info text-uppercase mb-1">New This Month</div>
+              <div class="h5 mb-0 font-weight-bold text-gray-800">12</div>
+            </div>
+            <div class="col-auto">
+              <i class="fas fa-calendar-plus fa-2x text-gray-300"></i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters and Search -->
+  <div class="card shadow-sm mb-4">
+    <div class="card-header bg-white py-3">
+      <div class="row align-items-center">
+        <div class="col-md-4 mb-2 mb-md-0">
+          <div class="input-group">
+            <span class="input-group-text bg-white"><i class="fas fa-search text-muted"></i></span>
+            <input type="text" class="form-control" id="searchInput" placeholder="Search members...">
+          </div>
+        </div>
+        <div class="col-md-3 mb-2 mb-md-0">
+          <select class="form-select" id="memberTypeFilter">
+            <option value="">All Member Types</option>
+            <option value="student">Students</option>
+            <option value="faculty">Faculty</option>
+            <option value="staff">Staff</option>
+            <option value="community">Community</option>
+          </select>
+        </div>
+        <div class="col-md-3 mb-2 mb-md-0">
+          <select class="form-select" id="statusFilter">
+            <option value="">All Statuses</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+            <option value="overdue">With Overdue Books</option>
+          </select>
+        </div>
+        <div class="col-md-2">
+          <button class="btn btn-outline-secondary w-100" type="button" id="resetFilters">
+            <i class="fas fa-sync-alt me-1"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table table-hover mb-0" id="membersTable">
+          <thead class="table-light">
+            <tr>
+              <th width="50">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" id="selectAll">
+                </div>
+              </th>
+              <th>Member</th>
+              <th>Contact</th>
+              <th>Membership</th>
+              <th>Borrowed</th>
+              <th>Status</th>
+              <th class="text-end">Actions</th>
+            </tr>
+          </thead>
+          <tbody id="memberTableBody">
+            {% for member in members %}
+            <tr data-member-id="{{ member.id }}" data-type="{{ member.member_type|default('community') }}"
+              data-status="{{ member.status|default('active') }}">
+              <td>
+                <div class="form-check">
+                  <input class="form-check-input member-checkbox" type="checkbox" value="{{ member.id }}">
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="avatar avatar-md me-3">
+                    <span class="avatar-text rounded-circle bg-soft-primary text-primary">
+                      {{ member.first_name[0]|upper }}{{ member.last_name[0]|upper }}
+                    </span>
+                  </div>
+                  <div>
+                    <h6 class="mb-0">{{ member.first_name }} {{ member.last_name }}</h6>
+                    <small class="text-muted">ID: {{ member.member_id or 'N/A' }}</small>
+                  </div>
+                </div>
+              </td>
+              <td>
+                <div class="text-muted">
+                  <div><i class="fas fa-envelope me-2"></i> {{ member.email or 'N/A' }}</div>
+                  <div><i class="fas fa-phone me-2"></i> {{ member.phone or 'N/A' }}</div>
+                </div>
+              </td>
+              <td>
+                <span class="badge bg-light text-dark">
+                  <i
+                    class="fas fa-{{ 'user-graduate' if member.member_type == 'student' else 'chalkboard-teacher' if member.member_type == 'faculty' else 'user-tie' if member.member_type == 'staff' else 'user' }} me-1"></i>
+                  {{ member.member_type|title or 'Community' }}
+                </span>
+                <div class="small text-muted mt-1">
+                  Since {{ member.joined_date.strftime('%b %d, %Y') if member.joined_date else 'N/A' }}
+                </div>
+              </td>
+              <td>
+                <div class="d-flex align-items-center">
+                  <div class="progress flex-grow-1 me-2" style="height: 6px;">
+                    <div class="progress-bar bg-success" role="progressbar" style="width: 60%;" aria-valuenow="60"
+                      aria-valuemin="0" aria-valuemax="100"></div>
+                  </div>
+                  <span class="small">3/5</span>
+                </div>
+                <div class="small text-muted mt-1">2 books due soon</div>
+              </td>
+              <td>
+                <span
+                  class="badge bg-{{ 'success' if member.status == 'active' else 'danger' if member.status == 'inactive' else 'warning' }}-light">
+                  {{ member.status|title or 'Active' }}
+                </span>
+              </td>
+              <td class="text-end">
+                <div class="dropdown">
+                  <button class="btn btn-sm btn-outline-secondary dropdown-toggle" type="button"
+                    id="memberActions{{ member.id }}" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="fas fa-ellipsis-v"></i>
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="memberActions{{ member.id }}">
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('member_bp.view_member', member_id=member.id) }}">
+                        <i class="far fa-eye me-2"></i>View Profile
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('member_bp.edit_member', member_id=member.id) }}">
+                        <i class="far fa-edit me-2"></i>Edit
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="{{ url_for('member_bp.issue_book', member_id=member.id) }}">
+                        <i class="fas fa-book-reader me-2"></i>Issue Book
+                      </a>
+                    </li>
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a class="dropdown-item text-danger delete-member" href="#" data-id="{{ member.id }}">
+                        <i class="far fa-trash-alt me-2"></i>Delete
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              </td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="7" class="text-center py-5">
+                <div class="py-5">
+                  <i class="fas fa-users fa-3x text-muted mb-3"></i>
+                  <h5>No members found</h5>
+                  <p class="text-muted">Add your first member to get started</p>
+                  <a href="{{ url_for('member_bp.add_member') }}" class="btn btn-primary mt-2">
+                    <i class="fas fa-user-plus me-1"></i> Add Member
+                  </a>
+                </div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Pagination -->
+      <div class="d-flex justify-content-between align-items-center p-3 border-top">
+        <div class="text-muted">
+          Showing <span id="showingFrom">1</span> to <span id="showingTo">10</span> of <span id="totalMembers">{{
+            members|length }}</span> entries
+        </div>
+        <nav aria-label="Page navigation">
+          <ul class="pagination mb-0">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bulk Actions Dropdown -->
+<div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+  <div id="bulkActions" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header bg-primary text-white">
+      <strong class="me-auto">Bulk Actions</strong>
+      <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body bg-white">
+      <div class="d-flex align-items-center mb-3">
+        <span id="selectedCount" class="badge bg-primary rounded-pill me-2">0</span> members selected
+      </div>
+      <div class="d-flex gap-2">
+        <select class="form-select form-select-sm" id="bulkActionSelect">
+          <option value="" selected disabled>Choose action...</option>
+          <option value="export">Export Selected</option>
+          <option value="activate">Mark as Active</option>
+          <option value="deactivate">Mark as Inactive</option>
+          <option value="delete">Delete Selected</option>
+        </select>
+        <button class="btn btn-sm btn-primary" type="button" id="applyBulkAction">Apply</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Import Modal -->
+<div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="importModalLabel">Import Members</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-info">
+          <i class="fas fa-info-circle me-2"></i>
+          Download our template file to ensure proper formatting of your member data.
+        </div>
+        <div class="mb-3">
+          <label for="importFile" class="form-label">Select CSV File</label>
+          <input class="form-control" type="file" id="importFile" accept=".csv">
+          <div class="form-text">File must be in CSV format with proper headers</div>
+        </div>
+        <div class="form-check mb-3">
+          <input class="form-check-input" type="checkbox" id="hasHeaders" checked>
+          <label class="form-check-label" for="hasHeaders">
+            First row contains headers
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-link text-muted" id="downloadTemplate">
+          <i class="fas fa-download me-1"></i> Download Template
+        </button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-primary" id="importMembers">
+          <i class="fas fa-file-import me-1"></i> Import
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-danger text-white">
+        <h5 class="modal-title"><i class="fas fa-exclamation-triangle me-2"></i>Confirm Deletion</h5>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Are you sure you want to delete the selected member(s)? This action cannot be undone.</p>
+        <div class="alert alert-warning mb-0">
+          <i class="fas fa-exclamation-circle me-2"></i>
+          This will permanently remove all member data, including their borrowing history.
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirmDelete">
+          <i class="fas fa-trash-alt me-1"></i> Delete Permanently
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    const tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+      return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
+
+    // Initialize select all checkbox
+    const selectAllCheckbox = document.getElementById('selectAll');
+    const memberCheckboxes = document.querySelectorAll('.member-checkbox');
+    const bulkActionsToast = new bootstrap.Toast(document.getElementById('bulkActions'));
+
+    if (selectAllCheckbox) {
+      selectAllCheckbox.addEventListener('change', function () {
+        const isChecked = this.checked;
+        memberCheckboxes.forEach(checkbox => {
+          checkbox.checked = isChecked;
+        });
+        updateSelectedCount();
+      });
+    }
+
+    // Update selected count when checkboxes change
+    memberCheckboxes.forEach(checkbox => {
+      checkbox.addEventListener('change', updateSelectedCount);
+    });
+
+    function updateSelectedCount() {
+      const selectedCount = document.querySelectorAll('.member-checkbox:checked').length;
+      document.getElementById('selectedCount').textContent = selectedCount;
+
+      if (selectedCount > 0) {
+        bulkActionsToast.show();
+      } else {
+        bulkActionsToast.hide();
+      }
+
+      // Update select all checkbox state
+      if (selectAllCheckbox) {
+        selectAllCheckbox.checked = selectedCount === memberCheckboxes.length;
+        selectAllCheckbox.indeterminate = selectedCount > 0 && selectedCount < memberCheckboxes.length;
+      }
+    }
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    if (searchInput) {
+      searchInput.addEventListener('input', filterMembers);
+    }
+
+    // Filter functionality
+    const memberTypeFilter = document.getElementById('memberTypeFilter');
+    const statusFilter = document.getElementById('statusFilter');
+
+    if (memberTypeFilter) memberTypeFilter.addEventListener('change', filterMembers);
+    if (statusFilter) statusFilter.addEventListener('change', filterMembers);
+
+    // Reset filters
+    const resetFiltersBtn = document.getElementById('resetFilters');
+    if (resetFiltersBtn) {
+      resetFiltersBtn.addEventListener('click', function () {
+        if (searchInput) searchInput.value = '';
+        if (memberTypeFilter) memberTypeFilter.value = '';
+        if (statusFilter) statusFilter.value = '';
+        filterMembers();
+      });
+    }
+
+    function filterMembers() {
+      const searchTerm = searchInput ? searchInput.value.toLowerCase() : '';
+      const typeFilter = memberTypeFilter ? memberTypeFilter.value : '';
+      const statusFilterValue = statusFilter ? statusFilter.value : '';
+
+      document.querySelectorAll('#memberTableBody tr').forEach(row => {
+        const name = row.querySelector('h6').textContent.toLowerCase();
+        const email = row.querySelector('td:nth-child(3)').textContent.toLowerCase();
+        const type = row.dataset.type || '';
+        const status = row.querySelector('.badge').textContent.toLowerCase().trim();
+
+        const matchesSearch = name.includes(searchTerm) || email.includes(searchTerm);
+        const matchesType = !typeFilter || type === typeFilter;
+        const matchesStatus = !statusFilterValue ||
+          (statusFilterValue === 'active' && status === 'active') ||
+          (statusFilterValue === 'inactive' && status === 'inactive') ||
+          (statusFilterValue === 'overdue' && status === 'overdue');
+
+        row.style.display = (matchesSearch && matchesType && matchesStatus) ? '' : 'none';
+      });
+
+      // Update showing count
+      const visibleRows = document.querySelectorAll('#memberTableBody tr:not([style*="display: none"])');
+      document.getElementById('showingTo').textContent = visibleRows.length;
+    }
+
+    // Delete member confirmation
+    const deleteButtons = document.querySelectorAll('.delete-member');
+    const deleteConfirmModal = new bootstrap.Modal(document.getElementById('deleteConfirmModal'));
+    let memberToDelete = null;
+
+    deleteButtons.forEach(button => {
+      button.addEventListener('click', function (e) {
+        e.preventDefault();
+        memberToDelete = this.dataset.id;
+        deleteConfirmModal.show();
+      });
+    });
+
+    document.getElementById('confirmDelete').addEventListener('click', function () {
+      if (memberToDelete) {
+        // Here you would typically make an AJAX call to delete the member
+        console.log('Deleting member:', memberToDelete);
+        // Show success message
+        showToast('Member deleted successfully', 'success');
+        // Close the modal
+        deleteConfirmModal.hide();
+        // Remove the row from the table
+        document.querySelector(`tr[data-member-id="${memberToDelete}"]`).remove();
+        memberToDelete = null;
+      }
+    });
+
+    // Bulk actions
+    document.getElementById('applyBulkAction').addEventListener('click', function () {
+      const action = document.getElementById('bulkActionSelect').value;
+      const selectedIds = Array.from(document.querySelectorAll('.member-checkbox:checked')).map(cb => cb.value);
+
+      if (selectedIds.length === 0) {
+        showToast('Please select at least one member', 'error');
+        return;
+      }
+
+      switch (action) {
+        case 'export':
+          // Export selected members
+          console.log('Exporting members:', selectedIds);
+          showToast('Exporting selected members...', 'info');
+          break;
+        case 'activate':
+          // Activate selected members
+          console.log('Activating members:', selectedIds);
+          showToast('Activating selected members...', 'success');
+          break;
+        case 'deactivate':
+          // Deactivate selected members
+          console.log('Deactivating members:', selectedIds);
+          showToast('Deactivating selected members...', 'warning');
+          break;
+        case 'delete':
+          // Show delete confirmation for selected members
+          memberToDelete = selectedIds;
+          document.querySelector('#deleteConfirmModal .modal-body p')
+            .textContent = `Are you sure you want to delete ${selectedIds.length} selected member(s)? This action cannot be undone.`;
+          deleteConfirmModal.show();
+          break;
+      }
+
+      // Reset checkboxes
+      memberCheckboxes.forEach(cb => cb.checked = false);
+      selectAllCheckbox.checked = false;
+      updateSelectedCount();
+    });
+
+    // Import functionality
+    document.getElementById('importMembers').addEventListener('click', function () {
+      const fileInput = document.getElementById('importFile');
+      const hasHeaders = document.getElementById('hasHeaders').checked;
+
+      if (!fileInput.files.length) {
+        showToast('Please select a file to import', 'error');
+        return;
+      }
+
+      const file = fileInput.files[0];
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('has_headers', hasHeaders);
+
+      // Here you would typically make an AJAX call to upload and process the file
+      console.log('Importing file:', file.name);
+      showToast('Importing members, please wait...', 'info');
+
+      // Simulate API call
+      setTimeout(() => {
+        showToast('Members imported successfully', 'success');
+        // Close the modal
+        const importModal = bootstrap.Modal.getInstance(document.getElementById('importModal'));
+        importModal.hide();
+      }, 2000);
+    });
+
+    // Download template
+    document.getElementById('downloadTemplate').addEventListener('click', function () {
+      // Create CSV content
+      const headers = ['First Name', 'Last Name', 'Email', 'Phone', 'Date of Birth', 'Gender', 'Address', 'City', 'State', 'Postal Code', 'Member Type', 'Institution'];
+      const csvContent = 'data:text/csv;charset=utf-8,' + headers.join(',');
+
+      // Create download link
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement('a');
+      link.setAttribute('href', encodedUri);
+      link.setAttribute('download', 'member_import_template.csv');
+      document.body.appendChild(link);
+
+      // Trigger download
+      link.click();
+      document.body.removeChild(link);
+
+      showToast('Template downloaded successfully', 'success');
+    });
+
+    // Show toast notification
+    function showToast(message, type = 'info') {
+      const toast = document.createElement('div');
+      toast.className = `toast show ${type}`;
+      toast.setAttribute('role', 'alert');
+      toast.setAttribute('aria-live', 'assertive');
+      toast.setAttribute('aria-atomic', 'true');
+
+      toast.innerHTML = `
+      <div class="toast-header bg-${type} text-white">
+        <strong class="me-auto">${type.charAt(0).toUpperCase() + type.slice(1)}</strong>
+        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+      </div>
+      <div class="toast-body">
+        ${message}
+      </div>
+    `;
+
+      const toastContainer = document.createElement('div');
+      toastContainer.className = 'position-fixed bottom-0 end-0 p-3';
+      toastContainer.style.zIndex = '11';
+      toastContainer.appendChild(toast);
+
+      document.body.appendChild(toastContainer);
+
+      // Auto remove toast after 5 seconds
+      setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          document.body.removeChild(toastContainer);
+        }, 300);
+      }, 5000);
+
+      // Close button functionality
+      toast.querySelector('.btn-close').addEventListener('click', function () {
+        toast.classList.remove('show');
+        setTimeout(() => {
+          if (toastContainer.parentNode) {
+            document.body.removeChild(toastContainer);
+          }
+        }, 300);
+      });
+    }
+  });
+</script>
+{% endblock %}

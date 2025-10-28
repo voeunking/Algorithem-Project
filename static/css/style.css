@@ -1,0 +1,376 @@
+/* ---------- Global ---------- */
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background-color: #f5f7fa;
+  margin: 0;
+  padding: 0;
+  color: #333;
+}
+
+/* ---------- Header ---------- */
+header {
+  background-color: #1e88e5;
+  color: white;
+  padding: 20px 0;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-size: 28px;
+}
+
+nav ul {
+  list-style: none;
+  margin: 10px 0 0;
+  padding: 0;
+}
+
+nav ul li {
+  display: inline-block;
+  margin: 0 15px;
+}
+
+nav ul li a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+nav ul li a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- Main Section ---------- */
+main {
+  text-align: center;
+  margin-top: 60px;
+}
+
+.welcome h2 {
+  font-size: 24px;
+  color: #333;
+}
+
+.welcome p {
+  color: #555;
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+/* ---------- Buttons ---------- */
+.btn {
+  display: inline-block;
+  padding: 12px 25px;
+  background-color: #1e88e5;
+  color: white;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn:hover {
+  background-color: #1565c0;
+}
+
+.btn-add {
+  background-color: #43a047;
+}
+
+.btn-add:hover {
+  background-color: #2e7d32;
+}
+
+/* ---------- Footer ---------- */
+footer {
+  margin-top: 100px;
+  background-color: #1e88e5;
+  color: white;
+  padding: 15px;
+  text-align: center;
+  font-size: 14px;
+}
+
+
+
+
+
+.issue-form {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 25px;
+}
+
+.issue-form label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.issue-form select {
+  margin-right: 15px;
+  padding: 5px;
+}
+
+.transaction-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+.transaction-table th,
+.transaction-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+.transaction-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-return {
+  background-color: #28a745;
+  color: white;
+  padding: 6px 12px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.btn-return:hover {
+  background-color: #218838;
+}
+
+.returned {
+  color: gray;
+  font-style: italic;
+}
+
+
+:root {
+  --accent: #2b6df6;
+  --muted: #666
+}
+
+* {
+  box-sizing: border-box
+}
+
+body {
+  font-family: Inter, Arial, sans-serif;
+  line-height: 1.4;
+  margin: 0;
+  background: #f6f8fb;
+  color: #111
+}
+
+.container {
+  max-width: 980px;
+  margin: 28px auto;
+  padding: 0 16px
+}
+
+.header {
+  background: white;
+  border-bottom: 1px solid #eee;
+  padding: 12px 0
+}
+
+.header .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between
+}
+
+nav a {
+  margin-left: 14px;
+  text-decoration: none;
+  color: var(--muted)
+}
+
+h1 {
+  margin: 0;
+  font-size: 20px
+}
+
+h2 {
+  margin-top: 8px
+}
+
+.books-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 12px;
+  background: white
+}
+
+.books-table th,
+.books-table td {
+  padding: 10px;
+  border: 1px solid #eee;
+  text-align: left
+}
+
+.books-table thead {
+  background: #fafafa
+}
+
+form label {
+  display: block;
+  margin-bottom: 8px
+}
+
+input[type=text],
+input[type=number] {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px
+}
+
+.actions {
+  display: flex;
+  gap: 8px
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  padding: 8px 12px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer
+}
+
+.button.ghost {
+  display: inline-block;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  color: var(--muted);
+  text-decoration: none
+}
+
+
+#member body {
+  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+h2 {
+  color: #333;
+}
+
+.table {
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #fff;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.btn-danger {
+  transition: all 0.2s ease;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transform: scale(1.05);
+}
+
+input#searchInput {
+  border-radius: 8px;
+}
+
+.navbar {
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+}
+
+
+body {
+  background-color: #f8f9fa;
+  font-family: "Poppins", sans-serif;
+}
+
+h2 {
+  font-weight: 600;
+}
+
+.table-hover tbody tr:hover {
+  background-color: #f1f1f1;
+  transition: 0.2s;
+}
+
+.btn {
+  border-radius: 8px;
+}
+
+.btn-danger:hover {
+  background-color: #c82333;
+  transition: 0.3s;
+}
+
+.input-group input {
+  border-radius: 8px 0 0 8px;
+}
+
+.input-group button {
+  border-radius: 0 8px 8px 0;
+}
+
+.navbar-brand {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+
+.container {
+  max-width: 1000px;
+}
+
+
+/* 
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background: #fff;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+}
+
+form label {
+    display: block;
+    margin-top: 1rem;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 0.5rem;
+    margin-top: 0.3rem;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+form button {
+    margin-top: 1.5rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #0275d8;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #025aa5;
+} */

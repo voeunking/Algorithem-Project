@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}Categories | Library Management{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/books" class="text-decoration-none">Books</a></li>
+<li class="breadcrumb-item active" aria-current="page">Categories</li>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Categories</h2>
+  <a href="/books" class="btn btn-outline-primary"><i class="fas fa-list me-2"></i>All Books</a>
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-5">
+        <label class="form-label">Search</label>
+        <input id="catSearch" type="text" class="form-control" placeholder="Search category">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Sort</label>
+        <select id="catSort" class="form-select">
+          <option value="category">Category</option>
+          <option value="total">Total Books</option>
+          <option value="available">Available</option>
+          <option value="authors">Authors</option>
+          <option value="availability_pct">Availability %</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Order</label>
+        <select id="catOrder" class="form-select">
+          <option value="asc">Ascending</option>
+          <option value="desc">Descending</option>
+        </select>
+      </div>
+      <div class="col-md-1">
+        <label class="form-label">Per Page</label>
+        <select id="catPerPage" class="form-select">
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="catTable">
+        <thead>
+          <tr>
+            <th>Category</th>
+            <th class="text-center" style="width:140px;">Total</th>
+            <th class="text-center" style="width:140px;">Available</th>
+            <th class="text-center" style="width:140px;">Authors</th>
+            <th class="text-center" style="width:160px;">Availability</th>
+            <th style="width:120px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <div id="catSummary" class="text-muted small"></div>
+      <nav>
+        <ul class="pagination mb-0" id="catPagination"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/categories.js') }}"></script>
+{% endblock %}

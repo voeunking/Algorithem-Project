@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+
+{% block title %}Overdue Members | Library Management{% endblock %}
+
+{% block breadcrumb %}
+<li class="breadcrumb-item"><a href="/members" class="text-decoration-none">Members</a></li>
+<li class="breadcrumb-item active" aria-current="page">Overdue</li>
+{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/overdue_members.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-3">
+  <h2 class="mb-0">Overdue Members</h2>
+  <a href="/transactions" class="btn btn-outline-primary"><i class="fas fa-exchange-alt me-2"></i>Transactions</a>
+</div>
+
+<div class="card shadow-sm mb-3">
+  <div class="card-body">
+    <div class="row g-2 align-items-end">
+      <div class="col-md-4">
+        <label class="form-label">Search</label>
+        <input id="odSearch" type="text" class="form-control" placeholder="Search member or book">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Min Days Overdue</label>
+        <input id="odDays" type="number" min="1" class="form-control" value="14">
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Sort</label>
+        <select id="odSort" class="form-select">
+          <option value="days_overdue">Days Overdue</option>
+          <option value="member">Member</option>
+          <option value="book">Book</option>
+          <option value="issue_date">Issue Date</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Order</label>
+        <select id="odOrder" class="form-select">
+          <option value="desc">Descending</option>
+          <option value="asc">Ascending</option>
+        </select>
+      </div>
+      <div class="col-md-2">
+        <label class="form-label">Per Page</label>
+        <select id="odPerPage" class="form-select">
+          <option>10</option>
+          <option>20</option>
+          <option>50</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="card shadow-sm">
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle" id="odTable">
+        <thead>
+          <tr>
+            <th style="width:70px;">#</th>
+            <th>Member</th>
+            <th>Book</th>
+            <th>Issue Date</th>
+            <th class="text-center" style="width:150px;">Days Overdue</th>
+            <th style="width:140px;">Actions</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <div id="odSummary" class="text-muted small"></div>
+      <nav>
+        <ul class="pagination mb-0" id="odPagination"></ul>
+      </nav>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script src="{{ url_for('static', filename='js/overdue_members.js') }}"></script>
+{% endblock %}
