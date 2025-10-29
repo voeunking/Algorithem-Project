@@ -1,17 +1,23 @@
 # models/user_model.py
-from config import get_db_connection
+import os
+import sys
+try:
+    from config import get_db_connection
+except ModuleNotFoundError:
+    sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+    from config import get_db_connection
 import bcrypt
 
 
 class UserModel:
     @staticmethod
-    def create_user(full_name, email, password):
+    def create_user(username, email, password):
         conn = get_db_connection()
         cursor = conn.cursor()
         hashed_pw = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
         cursor.execute(
-            "INSERT INTO users (full_name, email, password) VALUES (%s, %s, %s)",
-            (full_name, email, hashed_pw)
+            "INSERT INTO users (username, email, password) VALUES (%s, %s, %s)",
+            (username, email, hashed_pw)
         )
         conn.commit()
         cursor.close()
@@ -21,7 +27,7 @@ class UserModel:
     def find_by_email(email):
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("SELECT id, full_name, email, password FROM users WHERE email = %s", (email,))
+        cursor.execute("SELECT id, username, email, password FROM users WHERE email = %s", (email,))
         user = cursor.fetchone()
         cursor.close()
         conn.close()
@@ -71,10 +77,10 @@ class UserModel:
         return row
 
     @staticmethod
-    def update_profile(user_id, full_name, email):
+    def update_profile(user_id, username, email):
         conn = get_db_connection()
         cursor = conn.cursor()
-        cursor.execute("UPDATE users SET full_name = %s, email = %s WHERE id = %s", (full_name, email, user_id))
+        cursor.execute("UPDATE users SET username = %s, email = %s WHERE id = %s", (username, email, user_id))
         conn.commit()
         cursor.close()
         conn.close()

@@ -62,6 +62,50 @@ def add_member():
     return redirect(url_for('member_bp.view_members'))
 
 # =====================
+# ADD MEMBER (JSON API)
+# =====================
+@member_bp.route('/api/add', methods=['POST'])
+def api_add_member():
+    data = request.get_json(silent=True) or {}
+    first_name = (data.get('first_name') or '').strip()
+    last_name = (data.get('last_name') or '').strip()
+    full_name = (data.get('full_name') or '').strip() or f"{first_name} {last_name}".strip()
+    email = data.get('email')
+    phone = data.get('phone')
+    address = data.get('address')
+    date_of_birth = data.get('date_of_birth')
+    gender = data.get('gender')
+    city = data.get('city')
+    state = data.get('state')
+    postal_code = data.get('postal_code')
+    member_type = data.get('member_type')
+    membership_date = data.get('membership_date')
+    institution = data.get('institution')
+    emergency_contact_name = data.get('emergency_contact_name')
+    emergency_contact_phone = data.get('emergency_contact_phone')
+    notes = data.get('notes')
+    terms_agreed = 1 if data.get('terms_agreed') else 0
+
+    if not full_name:
+        return jsonify({"success": False, "error": "full_name is required"}), 400
+
+    new_id = MemberModel.add_member(
+        full_name, email, phone, address,
+        first_name=first_name, last_name=last_name,
+        date_of_birth=date_of_birth, gender=gender,
+        city=city, state=state, postal_code=postal_code,
+        member_type=member_type, membership_date=membership_date, institution=institution,
+        emergency_contact_name=emergency_contact_name, emergency_contact_phone=emergency_contact_phone,
+        notes=notes, terms_agreed=terms_agreed
+    )
+
+    return jsonify({
+        "success": True,
+        "id": new_id,
+        "message": "Member added successfully"
+    }), 201
+
+# =====================
 # EDIT MEMBER
 # =====================
 # Show edit member form

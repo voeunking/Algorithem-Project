@@ -85,8 +85,10 @@ class MemberModel:
             emergency_contact_name, emergency_contact_phone,
             notes, terms_agreed
         ))
+        member_id = cur.lastrowid
         conn.commit()
         conn.close()
+        return member_id
 
     @staticmethod
     def get_all():

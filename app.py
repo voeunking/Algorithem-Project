@@ -171,7 +171,6 @@ def upload_avatar():
     if ext not in {'.png', '.jpg', '.jpeg', '.gif', '.webp'}:
         flash('Invalid file type. Allowed: png, jpg, jpeg, gif, webp', 'danger')
         return redirect(url_for('profile_page'))
-
     # Save as user_id.ext to avoid duplicates
     new_name = f"{session['user_id']}{ext}"
     save_path = os.path.join(app.config['UPLOAD_FOLDER'], new_name)

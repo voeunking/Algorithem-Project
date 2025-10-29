@@ -209,17 +209,17 @@
                   </button>
                   <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="memberActions{{ member.id }}">
                     <li>
-                      <a class="dropdown-item" href="{{ url_for('member_bp.view_member', member_id=member.id) }}">
+                      <a class="dropdown-item" href="{{ url_for('member_bp.show_edit_member_form', id=member.id) }}">
                         <i class="far fa-eye me-2"></i>View Profile
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ url_for('member_bp.edit_member', member_id=member.id) }}">
+                      <a class="dropdown-item" href="{{ url_for('member_bp.show_edit_member_form', id=member.id) }}">
                         <i class="far fa-edit me-2"></i>Edit
                       </a>
                     </li>
                     <li>
-                      <a class="dropdown-item" href="{{ url_for('member_bp.issue_book', member_id=member.id) }}">
+                      <a class="dropdown-item" href="{{ url_for('transaction_bp.issue_book') }}">
                         <i class="fas fa-book-reader me-2"></i>Issue Book
                       </a>
                     </li>
