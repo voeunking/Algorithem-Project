@@ -1,6 +1,27 @@
-.avatar { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #4a6fa5, #6f9fd8); box-shadow: var(--card-shadow, 0 4px 6px rgba(0,0,0,.1)); }
-.settings-section { padding: .5rem 0 0; }
-.settings-section .form-label { font-weight: 500; }
-.settings-section .btn { min-width: 140px; }
-#avatar i { font-size: 1.6rem; }
-.alert { margin-bottom: 0; }
+.avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a6fa5, #6f9fd8);
+    box-shadow: var(--card-shadow, 0 4px 6px rgba(0, 0, 0, .1));
+}
+
+.settings-section {
+    padding: .5rem 0 0;
+}
+
+.settings-section .form-label {
+    font-weight: 500;
+}
+
+.settings-section .btn {
+    min-width: 140px;
+}
+
+#avatar i {
+    font-size: 1.6rem;
+}
+
+.alert {
+    margin-bottom: 0;
+}

@@ -3,73 +3,156 @@
 A full-featured **Library Management System** built using **Python Flask**, **MySQL**, and **HTML/CSS**.  
 This web application allows librarians to manage books, members, and borrowing transactions with user authentication.
 
----
+## 📖 Table of Contents
+- [Features](#-features)
+- [Installation Guide](#-installation-guide)
+- [Usage Guide](#-usage-guide)
+- [Developer Guide](#-developer-guide)
+- [Database Setup](#-database-setup)
+- [Contributing](#-contributing)
 
 ## 🚀 Features
 
 - 🔐 User Authentication (Register / Login / Logout)
 - 📘 Manage Books (Add, Edit, Delete, View)
-- 👥 Manage Members
+- 👥 Manage Members (Add, Edit, Remove)
 - 🔄 Issue & Return Books
-- 🧾 View Transaction History
-- 🖥️ Responsive Frontend (HTML + CSS + Jinja2)
+- 📊 Dashboard with Statistics
+- 🧾 Transaction History
+- � Responsive Design
 
----
+## ⚙️ Installation Guide
 
-## 🧩 Project Structure
+### Prerequisites
+- Python 3.10+
+- MySQL Server
+- pip (Python package manager)
 
+### Quick Start
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/voeunking/library_management.git
+   cd library_management
+   ```
+
+2. Install dependencies:
+   ```bash
+   pip install flask mysql-connector-python
+   ```
+
+3. Configure MySQL:
+   - Create `config.py` in the root directory
+   - Add your database credentials:
+     ```python
+     DB_CONFIG = {
+         'host': 'localhost',
+         'user': 'your_username',
+         'password': 'your_password',
+         'database': 'library_db'
+     }
+     ```
+
+4. Run the application:
+   ```bash
+   python app.py
+   ```
+
+## 📱 Usage Guide
+
+### 1. Authentication
+- **Register**: Create a new librarian account
+  1. Click "Register" on the login page
+  2. Fill in: Name, Email, Password
+  3. Submit to create account
+
+- **Login**: 
+  1. Enter email and password
+  2. Click "Login"
+  3. You'll be directed to the dashboard
+
+### 2. Dashboard
+The dashboard shows:
+- Total books in library
+- Total registered members
+- Currently issued books
+- Recent transactions
+- Quick action buttons
+
+### 3. Managing Books
+- **Add New Book**:
+  1. Click "Add Book" from dashboard
+  2. Fill in:
+     - Title
+     - Author
+     - Category
+     - Number of copies
+  3. Click "Save"
+
+- **View/Edit Books**:
+  1. Click "View Books" from dashboard
+  2. Use search bar to find books
+  3. Click edit icon to modify
+  4. Click delete icon to remove
+
+### 4. Managing Members
+- **Add Member**:
+  1. Click "Add Member"
+  2. Enter:
+     - Full Name
+     - Email
+     - Phone
+  3. Click "Save"
+
+- **View Members**:
+  1. Click "View Members"
+  2. Search members by name/email
+  3. Edit or remove as needed
+
+### 5. Book Transactions
+- **Issue Book**:
+  1. Click "Issue Book"
+  2. Select member from dropdown
+  3. Select book from list
+  4. Set issue date
+  5. Click "Issue"
+
+- **Return Book**:
+  1. Go to "Transactions"
+  2. Find the issue record
+  3. Click "Return"
+  4. Confirm return date
+
+### 6. Reports
+- View transaction history
+- Check overdue books
+- Monitor popular books
+- Track member activity
+
+## 🛠 Developer Guide
+
+### Project Structure
+```
 library_management/
-│
-├── app.py # Main Flask app
-├── config.py # Database connection configuration
-│
-├── routes/ # Flask route modules
-│ ├── auth_routes.py # Login and registration
-│ ├── book_routes.py # Manage books
-│ ├── member_routes.py # Manage members
-│ └── transaction_routes.py # Handle issuing and returning books
-│
-├── models/ # Database model files
-│ ├── user_model.py
-│ ├── book_model.py
-│ ├── member_model.py
-│ └── transaction_model.py
-│
-├── templates/ # HTML Templates
-│ ├── base.html
-│ ├── index.html
-│ ├── login.html
-│ ├── register.html
-│ ├── books.html
-│ ├── members.html
-│ └── transactions.html
-│
-├── static/ # CSS, JS, and images
-│ ├── css/
-│ │ └── style.css
-│ └── images/
-│
-└── README.md
+├── app.py              # Main Flask application
+├── config.py           # Database configuration
+├── models/            # Database models
+├── routes/            # Route handlers
+├── static/            # Assets (CSS, JS)
+└── templates/         # HTML templates
+```
 
+### Key Files
+- `app.py`: Application entry point
+- `routes/*.py`: Feature-specific routes
+- `models/*.py`: Database interaction
+- `static/css/`: Styling files
+- `templates/`: Page templates
 
----
+## 💾 Database Setup
 
-## ⚙️ Setup Guide
+Run these SQL commands to set up your database:
 
-### 1️⃣ Prerequisites
-Make sure you have these installed:
-- **Python 3.10+**
-- **MySQL Server**
-- **pip (Python package manager)**
-
----
-
-### 2️⃣ Install Dependencies
-Run this command in your project folder:
-```bash
-pip install flask mysql-connector-python
-
-
+```sql
 CREATE DATABASE library_db;
 USE library_db;
 
@@ -103,3 +186,36 @@ CREATE TABLE transactions (
     return_date DATE,
     status VARCHAR(20)
 );
+```
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
+
+### Coding Standards
+- Follow PEP 8 for Python code
+- Use clear, descriptive variable names
+- Comment complex logic
+- Write unit tests for new features
+
+### Testing
+Run tests before submitting:
+```bash
+python -m unittest discover tests
+```
+
+---
+
+## 📞 Support
+
+If you encounter any issues:
+1. Check the [issues page](https://github.com/voeunking/library_management/issues)
+2. Create a new issue with:
+   - Steps to reproduce
+   - Expected behavior
+   - Actual behavior
+   - Screenshots if applicable

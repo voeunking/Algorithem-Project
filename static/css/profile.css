@@ -1,13 +1,47 @@
-.avatar { width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg, #4a6fa5, #6f9fd8); box-shadow: var(--card-shadow, 0 4px 6px rgba(0,0,0,.1)); }
-.stat-tile { background: var(--light-color, #f8f9fa); border-radius: 10px; text-align: center; padding: 10px 8px; }
-.stat-value { font-weight: 700; font-size: 1.2rem; }
-.stat-label { color: var(--secondary-color, #6c757d); font-size: .85rem; }
-.list-group .list-group-item { padding-left: 0; padding-right: 0; }
+.avatar {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #4a6fa5, #6f9fd8);
+    box-shadow: var(--card-shadow, 0 4px 6px rgba(0, 0, 0, .1));
+}
+
+.stat-tile {
+    background: var(--light-color, #f8f9fa);
+    border-radius: 10px;
+    text-align: center;
+    padding: 10px 8px;
+}
+
+.stat-value {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+.stat-label {
+    color: var(--secondary-color, #6c757d);
+    font-size: .85rem;
+}
+
+.list-group .list-group-item {
+    padding-left: 0;
+    padding-right: 0;
+}
 
 /* Settings */
-.settings-section { padding: .5rem 0 0; }
-.settings-section .form-label { font-weight: 500; }
-.settings-section .btn { min-width: 140px; }
+.settings-section {
+    padding: .5rem 0 0;
+}
+
+.settings-section .form-label {
+    font-weight: 500;
+}
+
+.settings-section .btn {
+    min-width: 140px;
+}
 
 /* Avatar fallback icon centering */
-#avatar i { font-size: 1.5rem; }
+#avatar i {
+    font-size: 1.5rem;
+}

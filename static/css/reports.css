@@ -1,11 +1,38 @@
 /* Minimal, modern report styles following existing theme */
-.stat-card { background: var(--light-color, #f8f9fa); border-radius: 12px; padding: 16px 18px; box-shadow: var(--card-shadow, 0 4px 6px rgba(0,0,0,.08)); height: 100%; }
-.stat-title { font-size: .9rem; color: var(--secondary-color, #6c757d); margin-bottom: 6px; }
-.stat-value { font-size: 1.6rem; font-weight: 700; color: var(--dark-color, #343a40); }
+.stat-card {
+    background: var(--light-color, #f8f9fa);
+    border-radius: 12px;
+    padding: 16px 18px;
+    box-shadow: var(--card-shadow, 0 4px 6px rgba(0, 0, 0, .08));
+    height: 100%;
+}
 
-#tableSection table thead th { white-space: nowrap; }
-#tableSection table tbody td { vertical-align: middle; }
+.stat-title {
+    font-size: .9rem;
+    color: var(--secondary-color, #6c757d);
+    margin-bottom: 6px;
+}
 
-.filters .form-label { font-weight: 600; }
+.stat-value {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--dark-color, #343a40);
+}
 
-.badge-soft { background: rgba(74,111,165,.1); color: #4a6fa5; border: 1px solid rgba(74,111,165,.2); }
+#tableSection table thead th {
+    white-space: nowrap;
+}
+
+#tableSection table tbody td {
+    vertical-align: middle;
+}
+
+.filters .form-label {
+    font-weight: 600;
+}
+
+.badge-soft {
+    background: rgba(74, 111, 165, .1);
+    color: #4a6fa5;
+    border: 1px solid rgba(74, 111, 165, .2);
+}

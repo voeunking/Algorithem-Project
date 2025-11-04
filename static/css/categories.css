@@ -1,8 +1,22 @@
 /* Categories page styles */
-#catTable thead th { white-space: nowrap; }
-#catTable tbody td { vertical-align: middle; }
+#catTable thead th {
+    white-space: nowrap;
+}
 
-.progress { height: 8px; }
-.badge-soft { background: rgba(74,111,165,.1); color: #4a6fa5; border: 1px solid rgba(74,111,165,.2); }
+#catTable tbody td {
+    vertical-align: middle;
+}
 
-#catPagination .page-link { cursor: pointer; }
+.progress {
+    height: 8px;
+}
+
+.badge-soft {
+    background: rgba(74, 111, 165, .1);
+    color: #4a6fa5;
+    border: 1px solid rgba(74, 111, 165, .2);
+}
+
+#catPagination .page-link {
+    cursor: pointer;
+}
