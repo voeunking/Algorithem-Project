@@ -121,6 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
   if (document.getElementById('dashboard-stats')) {
     updateDashboardStats();
   }
+
+  initCountupObserver();
 });
 
 // Dashboard statistics
@@ -136,6 +138,8 @@ async function updateDashboardStats() {
     if (elBooks) elBooks.textContent = stats.totalBooks ?? 0;
     if (elMembers) elMembers.textContent = stats.totalMembers ?? 0;
     if (elIssued) elIssued.textContent = stats.booksIssued ?? 0;
+
+    runGlanceCountups();
 
     // Popular books list
     const popularList = document.getElementById('popular-books');
@@ -186,6 +190,47 @@ async function updateDashboardStats() {
     console.error('Error fetching dashboard stats:', error);
     showToast('Failed to load dashboard statistics', 'error');
   }
+}
+
+function animateCount(el, to, duration = 1000) {
+  const start = 0;
+  const diff = (to || 0) - start;
+  const startTime = performance.now();
+  function frame(now) {
+    const t = Math.min(1, (now - startTime) / duration);
+    const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+    el.textContent = Math.round(start + diff * eased).toLocaleString();
+    if (t < 1) requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+}
+
+function runGlanceCountups() {
+  const map = {
+    'total-books': document.querySelector('#total-books')?.textContent,
+    'total-members': document.querySelector('#total-members')?.textContent,
+    'books-issued': document.querySelector('#books-issued')?.textContent
+  };
+  document.querySelectorAll('[data-countup-target]').forEach(el => {
+    const targetId = el.getAttribute('data-countup-target');
+    const value = parseInt((map[targetId] || '0').toString().replace(/[,\s]/g, ''), 10) || 0;
+    animateCount(el, value, 1200);
+  });
+}
+
+function initCountupObserver() {
+  const hero = document.querySelector('.hero');
+  if (!hero) return;
+  let ran = false;
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && !ran) {
+        ran = true;
+        runGlanceCountups();
+      }
+    });
+  }, { threshold: 0.3 });
+  io.observe(hero);
 }
 
 // Responsive table handling

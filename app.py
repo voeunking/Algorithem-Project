@@ -197,7 +197,6 @@ def logout():
         return redirect(url_for('auth_bp.logout'))
     session.clear()
     return redirect(url_for('index'))
-
 # =======================
 # API ENDPOINTS
 # =======================

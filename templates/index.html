@@ -7,6 +7,43 @@
 {% endblock %}
 
 {% block content %}
+    <section class="hero">
+        <div class="container hero-inner">
+            <div class="hero-copy" data-aos="fade-up">
+                <h1>Manage Your Library Smarter</h1>
+                <p class="lead">Track books, members, and transactions with a modern, simple dashboard.</p>
+                <div class="hero-actions">
+                    <a href="#dashboard-stats" class="btn btn-primary btn-cta scroll-to">View Dashboard</a>
+                    <a href="{{ url_for('book_bp.add_book') }}" class="btn btn-outline-primary">Add Book</a>
+                </div>
+            </div>
+            <div class="hero-illustration" data-aos="fade-left">
+                <div class="stats-glance">
+                    <div class="glance-item">
+                        <i class="fas fa-book"></i>
+                        <div>
+                            <div class="glance-value" data-countup-target="total-books">0</div>
+                            <div class="glance-label">Books</div>
+                        </div>
+                    </div>
+                    <div class="glance-item">
+                        <i class="fas fa-users"></i>
+                        <div>
+                            <div class="glance-value" data-countup-target="total-members">0</div>
+                            <div class="glance-label">Members</div>
+                        </div>
+                    </div>
+                    <div class="glance-item">
+                        <i class="fas fa-exchange-alt"></i>
+                        <div>
+                            <div class="glance-value" data-countup-target="books-issued">0</div>
+                            <div class="glance-label">Issued</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <main id="dashboard-stats">
         <section class="welcome">
@@ -18,6 +55,32 @@
                 <a class="btn btn-add" href="{{ url_for('book_bp.add_book') }}">Add New Book</a>
                 <a class="btn btn-members" href="{{ url_for('member_bp.view_members') }}">View Members</a>
                 <a class="btn btn-transactions" href="{{ url_for('transaction_bp.view_transactions') }}">Transactions</a>
+            </div>
+        </section>
+
+        <section class="features container">
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="feature-card card h-100" data-aos="fade-up">
+                        <div class="feature-icon"><i class="fas fa-magnifying-glass"></i></div>
+                        <h4>Powerful Search</h4>
+                        <p>Quickly find books, members, and records with instant filtering.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card h-100" data-aos="fade-up" data-aos-delay="100">
+                        <div class="feature-icon"><i class="fas fa-chart-bar"></i></div>
+                        <h4>Insights & Reports</h4>
+                        <p>Monitor activity, popular books, and overdue members at a glance.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="feature-card card h-100" data-aos="fade-up" data-aos-delay="200">
+                        <div class="feature-icon"><i class="fas fa-shield-halved"></i></div>
+                        <h4>Secure & Reliable</h4>
+                        <p>Built on best practices with clean, consistent UI across pages.</p>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -85,4 +148,18 @@
 
 {% block extra_js %}
 <script src="{{ url_for('static', filename='js/main.js') }}" defer></script>
+<script defer>
+    document.addEventListener('DOMContentLoaded', () => {
+      // Smooth scroll for hero CTA
+      document.querySelectorAll('.scroll-to').forEach(a => {
+        a.addEventListener('click', (e) => {
+          const href = a.getAttribute('href');
+          if (href && href.startsWith('#')) {
+            e.preventDefault();
+            document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+          }
+        });
+      });
+    });
+</script>
 {% endblock %}

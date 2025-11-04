@@ -7,11 +7,6 @@
     font-family: 'Arial', sans-serif;
 }
 
-body {
-    background-color: #f7f9fc;
-    color: #333;
-}
-
 header {
     background-color: #4a90e2;
     color: white;
@@ -43,6 +38,48 @@ nav a:hover {
 
 main {
     padding: 2rem;
+}
+
+.hero {
+    background: linear-gradient(135deg, rgba(14,165,233,.08), rgba(3,105,161,.08));
+    padding: 3rem 0 2rem;
+}
+
+.hero-inner {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 2rem;
+    align-items: center;
+}
+
+.hero-copy h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -.02em;
+    margin-bottom: .5rem;
+}
+
+.hero-copy .lead {
+    font-size: 1.05rem;
+    color: #475569;
+    margin-bottom: 1.25rem;
+}
+
+.hero-actions {
+    display: flex;
+    gap: .75rem;
+    flex-wrap: wrap;
+}
+
+.btn-cta {
+    padding: .7rem 1.2rem;
+    border-radius: 10px;
+    box-shadow: 0 6px 16px rgba(13,110,253,.25);
+}
+
+.hero-illustration {
+    display: flex;
+    justify-content: center;
 }
 
 .welcome {
@@ -96,6 +133,27 @@ main {
     margin-bottom: 1rem;
 }
 
+.stats-glance {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1rem 1.25rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,.08);
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    gap: 1rem;
+    min-width: 280px;
+}
+
+.glance-item {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+}
+
+.glance-item i { color: #0b5ed7; font-size: 1.25rem; }
+.glance-value { font-size: 1.25rem; font-weight: 700; line-height: 1; }
+.glance-label { font-size: .8rem; color: #64748b; }
+
 .cards {
     display: flex;
     justify-content: center;
@@ -115,6 +173,12 @@ main {
     margin-bottom: 0.5rem;
     color: #4a90e2;
 }
+
+.features { margin-top: 1rem; margin-bottom: .5rem; }
+.feature-card { text-align: center; padding: 1.25rem; border: 1px solid #eef2f7; }
+.feature-icon { width: 48px; height: 48px; margin: 0 auto .75rem; border-radius: 12px; background: #e9f2ff; color: #0b5ed7; display: grid; place-items: center; font-size: 1.25rem; }
+.feature-card h4 { margin-bottom: .25rem; }
+.feature-card p { color: #64748b; margin: 0; }
 
 footer {
     text-align: center;
@@ -149,4 +213,6 @@ footer {
 @media (max-width: 576px) {
     .cards { gap: 1rem; }
     .stats .card { width: 100%; }
+    .hero-inner { grid-template-columns: 1fr; }
+    .stats-glance { grid-template-columns: repeat(3, minmax(0,1fr)); }
 }

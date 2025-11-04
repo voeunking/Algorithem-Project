@@ -36,6 +36,9 @@
   /* Gradients */
   --gradient-primary: linear-gradient(135deg, var(--primary-500) 0%, var(--primary-700) 100%);
   --gradient-dark: linear-gradient(135deg, var(--gray-800) 0%, var(--gray-900) 100%);
+  /* Navbar theme (customizable) */
+  --navbar-gradient: linear-gradient(135deg, #0b5ed7 0%, #0a58ca 100%);
+  --navbar-gradient-dark: linear-gradient(135deg, #0a3e8a 0%, #052c65 100%);
 
   /* Shadows */
   --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
@@ -348,13 +351,62 @@ p {
   box-shadow: var(--shadow);
 }
 
+.navbar-modern {
+  background: var(--navbar-gradient);
+  color: #fff;
+  border-bottom: 0;
+}
+
+.navbar-modern .navbar-brand {
+  color: #fff !important;
+  font-weight: 700;
+  letter-spacing: 0.2px;
+}
+
+.navbar-modern .navbar-toggler {
+  color: #fff;
+}
+
+.navbar-modern .navbar-toggler-icon {
+  filter: invert(1) brightness(2);
+}
+
+.navbar-modern .nav-link {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+.navbar-modern .nav-link:hover,
+.navbar-modern .nav-link.active {
+  background: rgba(255, 255, 255, 0.12);
+  color: #fff !important;
+}
+
+.navbar-modern .dropdown-menu {
+  border: none;
+  box-shadow: var(--shadow-lg);
+}
+
+@media (max-width: 991.98px) {
+  .navbar-modern .navbar-collapse {
+    background: rgba(0, 0, 0, 0.15);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    backdrop-filter: blur(6px);
+  }
+}
+
+[data-bs-theme="dark"] .navbar-modern {
+  background: var(--navbar-gradient-dark);
+}
+
 .navbar-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 100%;
 }
-
 
 .navbar-nav {
   display: flex;
