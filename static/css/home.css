@@ -6,9 +6,12 @@
 
 :root {
     --accent: #2b6df6;
+    /* primary blue */
     --muted: #6b7280;
     --card-bg: #ffffff;
-    --glass: rgba(255, 255, 255, 0.6);
+    --surface: #f7f8fa;
+    /* light surface for subtle cards */
+    --glass: rgba(255, 255, 255, 0.7);
 }
 
 /* Page background is inherited from global style */
@@ -22,29 +25,23 @@ body {
     padding: 0 16px;
 }
 
-/* Hero */
+/* Hero - modern minimal */
 .hero {
-    padding: 56px 0 32px;
+    padding: 64px 0 36px;
 }
 
 .hero-inner {
     display: grid;
-    grid-template-columns: 1fr 420px;
-    gap: 28px;
+    grid-template-columns: 1fr 380px;
+    gap: 32px;
     align-items: center;
-}
-
-.hero-copy h1 {
-    font-size: 2.25rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-    color: #0f172a;
 }
 
 .hero-copy .lead {
     font-size: 1.05rem;
     color: var(--muted);
-    margin-bottom: 18px;
+    margin-bottom: 22px;
+    max-width: 56ch;
 }
 
 .hero-actions {
@@ -54,20 +51,27 @@ body {
 }
 
 .btn-cta {
-    padding: .7rem 1.25rem;
-    border-radius: 12px;
-    box-shadow: 0 8px 28px rgba(43, 109, 246, 0.12);
+    padding: .75rem 1.25rem;
+    border-radius: 10px;
+    background: var(--accent);
+    color: white;
+    border: none;
 }
 
 .btn-outline-primary {
     background: transparent;
-    border: 1px solid rgba(43, 109, 246, 0.12);
+    border: 1px solid rgba(43, 109, 246, 0.14);
     color: var(--accent);
+}
+
+/* subtle card for the hero illustration area */
+.stats-glance {
+    padding: 20px;
 }
 
 /* Glance stats card on right */
 .stats-glance {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.9));
+    background: linear-gradient(180deg, rgba(87, 81, 81, 0.3), rgba(83, 81, 81, 0.366));
     border-radius: 16px;
     padding: 18px;
     box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
@@ -104,10 +108,17 @@ body {
     color: var(--muted);
 }
 
-/* Welcome and action buttons */
-.welcome {
-    text-align: center;
-    margin: 28px 0 18px;
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 4px;
+    color: #0b1220;
+}
+
+.stat-foot {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    color: var(--muted);
 }
 
 .dashboard-buttons {
@@ -126,18 +137,26 @@ body {
 
 /* Feature cards */
 .features .row {
-    display: flex;
-    gap: 18px;
-    flex-wrap: wrap;
+    margin-top: 20px;
+    /* display: grid;
+    grid-template-columns: 1fr;
+    gap: 18px; */
 }
 
 .feature-card {
-    background: var(--card-bg);
+    /* background: linear-gradient(180deg, #ffffff 0%, #fbfdff 100%); */
     border-radius: 12px;
     padding: 20px;
+    /* leave text centered visually, but reserve space on the right for the icon */
+    padding-right: 92px;
+    /* room for absolute icon (64px + gap) */
     text-align: center;
+    position: relative;
+    /* make icon absolute inside the card */
     box-shadow: 0 10px 30px rgba(2, 6, 23, 0.06);
     transition: transform .18s ease, box-shadow .18s ease;
+    width: 100%;
+    /* ensure each card fills available row width */
 }
 
 .feature-card:hover {
@@ -148,13 +167,18 @@ body {
 .feature-icon {
     width: 64px;
     height: 64px;
-    margin: 0 auto 12px;
+    margin: 0;
+    /* remove auto-centering when placed absolute */
     border-radius: 14px;
     display: grid;
     place-items: center;
     background: linear-gradient(180deg, rgba(234, 246, 255, 1), rgba(221, 236, 255, 1));
     color: var(--accent);
     font-size: 20px;
+    position: absolute;
+    /* position at top-right */
+    top: 20px;
+    right: 20px;
 }
 
 .feature-card h4 {
@@ -174,19 +198,22 @@ body {
 
 .cards {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px;
     align-items: stretch;
+    animation: fade-up .45s ease both;
 }
 
 .stats-card {
     border-radius: 12px;
-    padding: 20px;
-    color: white;
+    padding: 18px 18px 16px 18px;
+    color: #0b1220;
+    background: var(--card-bg);
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 14px 36px rgba(2, 6, 23, 0.08);
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    border-left: 6px solid rgba(43, 109, 246, 0.12);
 }
 
 .stats-card h4 {
@@ -201,16 +228,107 @@ body {
     margin: 0;
 }
 
+/* new internal structure styles for enhanced stat cards */
+.stats-card .stat-top {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+}
+
+.stat-icon {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
+    background: rgba(43, 109, 246, 0.08);
+    color: var(--accent);
+    font-size: 20px;
+}
+
+.stat-body h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    opacity: 0.95;
+}
+
+.stat-value {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-top: 4px;
+    color: #0b1220;
+}
+
+.stat-foot {
+    margin-top: 10px;
+    font-size: 0.88rem;
+    color: var(--muted);
+}
+
+.stats-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 22px 48px rgba(2, 6, 23, 0.12);
+    transition: all .18s ease;
+}
+
+/* small stagger for cards */
+.cards>.stats-card:nth-child(1) {
+    animation-delay: 0.04s;
+}
+
+.cards>.stats-card:nth-child(2) {
+    animation-delay: 0.10s;
+}
+
+.cards>.stats-card:nth-child(3) {
+    animation-delay: 0.16s;
+}
+
+@keyframes fade-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Improve tables and lists in info sections */
+.info-sections .table thead th {
+    background: rgba(15, 23, 42, 0.06);
+    border-bottom: none;
+}
+
+.info-sections .table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.03);
+    transform: translateX(0);
+}
+
+.list-group li {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(2, 6, 23, 0.03);
+}
+
+/* small helper for centered empty states */
+.empty-state {
+    text-align: center;
+    color: var(--muted);
+    padding: 28px 12px;
+}
+
 .stats-card:nth-child(1) {
-    background: linear-gradient(135deg, #2b6df6, #6ea8ff);
+    border-left-color: #2b6df6;
 }
 
 .stats-card:nth-child(2) {
-    background: linear-gradient(135deg, #10b981, #6ee7b7);
+    border-left-color: #10b981;
 }
 
 .stats-card:nth-child(3) {
-    background: linear-gradient(135deg, #f97316, #ffb86b);
+    border-left-color: #f97316;
 }
 
 /* Info sections */
@@ -269,5 +387,19 @@ footer {
     .glance-item i {
         width: 40px;
         height: 40px;
+    }
+
+    /* On small screens revert the feature icon to centered, static flow */
+    .feature-icon {
+        position: static;
+        margin: 0 auto 12px;
+        right: auto;
+        top: auto;
+    }
+
+    /* Remove the extra right padding used for desktop absolute icon */
+    .feature-card {
+        padding-right: 20px;
+        text-align: center;
     }
 }

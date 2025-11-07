@@ -1,21 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Register - Library Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="/static/css/authentication.css">
 </head>
+
 <body>
-    <div class="container">
-        <h2>Register</h2>
-        <form method="POST">
-            <input type="text" name="full_name" placeholder="Full Name" required>
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <input type="password" name="confirm_password" placeholder="Confirm Password" required>
-            <button type="submit">Register</button>
-        </form>
-        <p>Already have an account? <a href="{{ url_for('auth_bp.login') }}">Login</a></p>
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="brand">
+                <div class="logo">📚</div>
+                <h2>Create Account</h2>
+                <p class="subtitle">Join the library management platform</p>
+            </div>
+
+            <form method="POST" class="auth-form">
+                <div class="input-group">
+                    <span class="icon">👤</span>
+                    <input type="text" name="full_name" placeholder="Full name" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">@</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" name="confirm_password" placeholder="Confirm password" required>
+                </div>
+
+                <button type="submit" class="btn-login">Register</button>
+            </form>
+
+            <div class="auth-meta">
+                <p class="register">Already have an account? <a href="{{ url_for('auth_bp.login') }}">Login</a></p>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>

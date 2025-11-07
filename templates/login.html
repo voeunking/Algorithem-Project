@@ -1,19 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>Login - Library Management System</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <link rel="stylesheet" href="/static/css/authentication.css">
 </head>
+
 <body>
-    <div class="container">
-        <h2>Login</h2>
-        <form method="POST">
-            <input type="email" name="email" placeholder="Email" required>
-            <input type="password" name="password" placeholder="Password" required>
-            <button type="submit">Login</button>
-        </form>
-        <p>Don’t have an account? <a href="{{ url_for('auth_bp.register') }}">Register</a></p>
+    <div class="auth-page">
+        <div class="auth-card">
+            <div class="brand">
+                <div class="logo">📚</div>
+                <h2>Library Manager</h2>
+                <p class="subtitle">Sign in to manage books, members & transactions</p>
+            </div>
+
+            <form method="POST" class="auth-form">
+                <div class="input-group">
+                    <span class="icon">@</span>
+                    <input type="email" name="email" placeholder="Email" required>
+                </div>
+
+                <div class="input-group">
+                    <span class="icon">🔒</span>
+                    <input type="password" name="password" placeholder="Password" required>
+                </div>
+
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+
+            <div class="auth-meta">
+                <a class="forgot" href="#">Forgot password?</a>
+                <p class="register">Don’t have an account? <a href="{{ url_for('auth_bp.register') }}">Register</a></p>
+            </div>
+        </div>
     </div>
 </body>
+
 </html>
