@@ -1,22 +1,69 @@
-/* Minimal, modern report styles following existing theme */
+/* Clean, minimal report styles */
 .stat-card {
-    background: var(--light-color, #f8f9fa);
-    border-radius: 12px;
-    padding: 16px 18px;
-    box-shadow: var(--card-shadow, 0 4px 6px rgba(0, 0, 0, .08));
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 14px 16px;
+    border: 1px solid rgba(15, 23, 42, 0.04);
     height: 100%;
+}
+
+/* Stat delta badges */
+.stat-delta {
+    display: inline-block;
+    margin-left: 8px;
+    font-size: 0.85rem;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: transparent;
+}
+
+.stat-delta.up {
+    color: #16a34a;
+}
+
+.stat-delta.down {
+    color: #f97316;
+}
+
+/* Sparklines */
+.sparkline {
+    width: 100%;
+    display: block;
+    margin-top: 6px;
+    opacity: 0.95
+}
+
+/* Saved reports list */
+#savedReportsList {
+    margin-top: 8px;
+}
+
+#savedReportsList .list-group-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+}
+
+#savedReportsList .meta {
+    color: var(--report-muted);
+    font-size: 0.9rem;
+}
+
+#savedReportsList .actions .btn {
+    margin-left: 6px;
 }
 
 .stat-title {
     font-size: .9rem;
-    color: var(--secondary-color, #6c757d);
-    margin-bottom: 6px;
+    color: var(--report-muted, #6b7280);
+    margin-bottom: 6px
 }
 
 .stat-value {
-    font-size: 1.6rem;
+    font-size: 1.4rem;
     font-weight: 700;
-    color: var(--dark-color, #343a40);
+    color: #0b1220
 }
 
 #tableSection table thead th {
@@ -35,4 +82,44 @@
     background: rgba(74, 111, 165, .1);
     color: #4a6fa5;
     border: 1px solid rgba(74, 111, 165, .2);
+}
+
+/* Additional polished styles */
+.card.shadow-sm {
+    border: 1px solid rgba(15, 23, 42, 0.04);
+    background: #fff
+}
+
+.card-body .form-label {
+    color: var(--report-muted, #6b7280);
+    font-weight: 600
+}
+
+#reportType {
+    min-width: 140px
+}
+
+.btn-group .btn-sm {
+    padding: .3rem .55rem
+}
+
+.table thead th {
+    background: rgba(0, 0, 0, 0.02);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.04)
+}
+
+.table tbody tr:hover {
+    background: rgba(0, 0, 0, 0.01)
+}
+
+#chartSection canvas {
+    height: 160px !important
+}
+
+@media(max-width:768px) {
+    #tableSection .btn-group {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap
+    }
 }

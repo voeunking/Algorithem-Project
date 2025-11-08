@@ -14,11 +14,12 @@ const showToast = (message, type = 'info') => {
   toast.className = `toast show ${type}`;
   toast.textContent = message;
   document.body.appendChild(toast);
-  
+
   setTimeout(() => {
     toast.classList.remove('show');
     setTimeout(() => toast.remove(), 300);
-  }, 3000);};
+  }, 3000);
+};
 
 // Form validation and handling
 document.addEventListener('DOMContentLoaded', () => {
@@ -30,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const validateForm = (form) => {
     let isValid = true;
     const requiredFields = form.querySelectorAll('[required]');
-    
+
     requiredFields.forEach(field => {
       if (!field.value.trim()) {
         field.classList.add('is-invalid');
@@ -39,7 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
         field.classList.remove('is-invalid');
       }
     });
-    
+
     return isValid;
   };
 
@@ -52,10 +53,10 @@ document.addEventListener('DOMContentLoaded', () => {
         showToast('Please fill in all required fields', 'error');
         return;
       }
-      
+
       const total = parseInt(bookForm.total_copies.value || '0', 10);
       const avail = parseInt(bookForm.available_copies.value || '0', 10);
-      
+
       if (avail > total) {
         e.preventDefault();
         showToast('Available copies cannot exceed total copies', 'error');
@@ -67,20 +68,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const setupSearch = (inputId, tableId) => {
     const searchInput = document.getElementById(inputId);
     const table = document.getElementById(tableId);
-    
+
     if (!searchInput || !table) return;
-    
+
     const searchTable = debounce((searchTerm) => {
       const rows = table.querySelectorAll('tbody tr');
       const searchTermLower = searchTerm.toLowerCase();
-      
+
       rows.forEach(row => {
         const cells = Array.from(row.getElementsByTagName('td'));
         const rowText = cells.map(cell => cell.textContent.toLowerCase()).join(' ');
         row.style.display = rowText.includes(searchTermLower) ? '' : 'none';
       });
     }, 300);
-    
+
     searchInput.addEventListener('input', (e) => searchTable(e.target.value));
   };
 
@@ -107,7 +108,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Auto-calculate available copies
   const totalCopiesInput = document.getElementById('total_copies');
   const availableCopiesInput = document.getElementById('available_copies');
-  
+
   if (totalCopiesInput && availableCopiesInput) {
     totalCopiesInput.addEventListener('input', () => {
       availableCopiesInput.max = totalCopiesInput.value;
@@ -140,6 +141,35 @@ async function updateDashboardStats() {
     if (elIssued) elIssued.textContent = stats.booksIssued ?? 0;
 
     runGlanceCountups();
+
+    // Update glance progress bars as relative proportions of the largest metric
+    try {
+      const vals = {
+        'total-books': Number(stats.totalBooks || 0),
+        'total-members': Number(stats.totalMembers || 0),
+        'books-issued': Number(stats.booksIssued || 0)
+      };
+      const max = Math.max(...Object.values(vals), 1);
+      Object.keys(vals).forEach(key => {
+        const pct = Math.round((vals[key] / max) * 100);
+        const el = document.querySelector(`[data-countup-target="${key}"]`);
+        if (!el) return;
+        const glanceItem = el.closest('.glance-item');
+        if (!glanceItem) return;
+        const fill = glanceItem.querySelector('.glance-progress-fill');
+        const percentLabel = glanceItem.querySelector('.glance-progress-percent');
+        const progressWrap = glanceItem.querySelector('.glance-progress');
+        if (fill) {
+          // set width with small timeout to allow smooth animation after DOM update
+          setTimeout(() => { fill.style.width = pct + '%'; }, 80);
+        }
+        if (percentLabel) percentLabel.textContent = pct + '%';
+        if (progressWrap) progressWrap.setAttribute('aria-valuenow', pct);
+      });
+    } catch (e) {
+      // silent fail for progress rendering
+      console.debug('Failed to update glance progress', e);
+    }
 
     // Popular books list
     const popularList = document.getElementById('popular-books');
@@ -254,23 +284,23 @@ if (document.readyState === 'loading') {
 function exportToCSV(tableId, filename) {
   const table = document.getElementById(tableId);
   if (!table) return;
-  
+
   const rows = table.querySelectorAll('tr');
   let csv = [];
-  
+
   for (let i = 0; i < rows.length; i++) {
     const row = [];
     const cols = rows[i].querySelectorAll('td, th');
-    
+
     for (let j = 0; j < cols.length; j++) {
       // Don't include action buttons in export
       if (cols[j].classList.contains('actions')) continue;
       row.push('"' + cols[j].textContent.replace(/"/g, '""') + '"');
     }
-    
+
     csv.push(row.join(','));
   }
-  
+
   // Download CSV file
   const csvContent = 'data:text/csv;charset=utf-8,' + csv.join('\n');
   const encodedUri = encodeURI(csvContent);
